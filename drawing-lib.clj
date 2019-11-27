@@ -15,6 +15,39 @@
                 (recur 
                   (next remaining-draw-functions))))))
 
+(defn draw-pixel [frame color x y]
+    (let [gfx (.getGraphics frame)]
+      (.setColor gfx color)
+      (.fillRect gfx x y 1 1)))
+
+(defn draw-rgb-functions [fun_r fun_g fun_b gfx]
+      (let [safe-fun (fn [f x y] (try (f x y) (catch Exception e 0)))
+            field-fun (fn [max-x mavalue-at-x-y] (for [x (range max-x) y (range mavalue-at-x-y)] [x y (safe-fun fun_r x y)  (safe-fun fun_g x y)  (safe-fun fun_b x y)]))
+            normalize (fn [val]  (int (max 0 (if (> val 255) 0 val))))
+      ]
+            (doseq [[x y rr gg bb] (field-fun 1000 1000)]
+                   (let [r (normalize rr)
+                         g (normalize gg)
+                         b (normalize bb)
+                         color (java.awt.Color. r g b)]
+                         (.setColor gfx color)
+                         (.fillRect gfx x y 1 1)))))
+
+(defn draw-function-color-circle-black-when-overflow [fun divisor gfx]
+      (let [safe-fun (fn [x y] (try (fun x y) (catch Exception e 0)))
+            offset-g (/ divisor 3)
+            offset-b (* 2 offset-g)
+            field-fun (fn [max-x mavalue-at-x-y] (for [x (range max-x) y (range mavalue-at-x-y)] [x y (safe-fun x y)]))
+            normalize (fn [val]  (int (max 0 (if (> val 255) 0 val))))
+      ]
+            (doseq [[x y value-at-x-y] (field-fun 1000 1000)]
+                   (let [r (normalize value-at-x-y)
+                         g (normalize (+ value-at-x-y offset-g))
+                         b (normalize (+ value-at-x-y offset-b))
+                         color (java.awt.Color. r g b)]
+                         (.setColor gfx color)
+                         (.fillRect gfx x y 1 1)))))
+
 (defn draw-function-color-circle [fun divisor gfx]
       (let [safe-fun (fn [x y] (try (fun x y) (catch Exception e 0)))
             offset-g (/ divisor 3)
