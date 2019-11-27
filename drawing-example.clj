@@ -348,8 +348,8 @@
 ;(draw-on-frame frame (partial draw-function-color-circle  (fn [x y] (let [x1 (- x 200) y1 (- y 200) x2 (- x 800) y2 (- y 800) r1 (hyp x1 y1) p1 (atan2 x1 y1) r2 (hyp x2 y2) p2 (atan2 x2 y2) pp1 (+ p1 (* 1/4 Math/PI)) pp2 (+ p2 (* 5/4 Math/PI))] (* (sin (* 12 pp1))  (sin (* 12 pp2))))) 1))
 ;(Thread/sleep 10)
 
-;(draw-on-frame frame (partial draw-function-color-circle-hsv  (fn [x y] (let [x1 (- x 200) y1 (- y 200) x2 (- x 800) y2 (- y 800) r1 (hyp x1 y1) p1 (atan2 x1 y1) r2 (hyp x2 y2) p2 (atan2 x2 y2) pp1 (+ p1 (* 1/4 Math/PI)) pp2 (+ p2 (* 5/4 Math/PI))] (* (sin (* 12 pp1))  (sin (* 12 pp2))))) 1))
-;(Thread/sleep 10)
+(draw-on-frame frame (partial draw-function-color-circle-hsv  (fn [x y] (let [x1 (- x 200) y1 (- y 200) x2 (- x 800) y2 (- y 800) r1 (hyp x1 y1) p1 (atan2 x1 y1) r2 (hyp x2 y2) p2 (atan2 x2 y2) pp1 (+ p1 (* 1/4 Math/PI)) pp2 (+ p2 (* 5/4 Math/PI))] (* (sin (* 12 pp1))  (sin (* 12 pp2))))) 1))
+(Thread/sleep 100000)
 
 ; (draw-on-frame frame (partial draw-function-color-circle  (fn [x y] (let [x1 (- x 200) y1 (- y 200) x2 (- x 800) y2 (- y 800) r1 (hyp x1 y1) p1 (atan2 x1 y1) r2 (hyp x2 y2) p2 (atan2 x2 y2) pp1 (+ p1 (* 1/4 Math/PI)) pp2 (+ p2 (* 5/4 Math/PI))] (+ (sin (/ x 50)) (sin (sin (/ y 50))) (sin (/ x 30))))) 0.02))
 
@@ -416,8 +416,15 @@
 ;(draw-on-frame frame drawing-fun)
 
 ;
-(defn fun [x y] (let [u (sin (/ (- (* (sin (/ x 50)) 100) (- y 500)) 500))
-                      v (sin (/ (- (* (sin (/ y 50)) 100) (- x 500)) 500))]
-                 (* u v)))
-(def drawing-fun (partial draw-function-color-circle fun 0.2))
+;(defn fun [x y] (let [u (+ 1 (sin (/ (- (* (sin (/ x 50)) 100) (- y 500)) 500)))
+;                      v (+ 1 (sin (/ (- (* (sin (/ y 50)) 100) (- x 500)) 500)))]
+;                 (* u v)))
+;(def drawing-fun (partial draw-function-color-circle fun 0.02))
+;(draw-on-frame frame drawing-fun)
+
+(defn fun [x y] (let [u (- (* (sin (/ x 50)) 100) (- y 500))
+                      v (- (* (sin (/ y 50)) 100) (- x 500))]
+                 u))
+(def drawing-fun (partial draw-function-color-circle-hsv fun 100000))
 (draw-on-frame frame drawing-fun)
+
