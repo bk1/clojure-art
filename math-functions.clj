@@ -39,6 +39,9 @@
 (defn asinh [s] (Math/log (+ s (Math/sqrt (+ (* s s) 1)))))
 (defn acosh [s] (Math/log (+ s (Math/sqrt (- (* s s) 1)))))
 
+(defn sqrt [x] (Math/sqrt x))
+(defn ** [x n] (Math/pow x n))
+
 ;(defn asinh [x] (Math/asinh x))
 ;(defn acosh [x] (Math/acosh x))
 ;(defn atanh [x] (Math/atanh x))
