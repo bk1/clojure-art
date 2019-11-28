@@ -147,3 +147,12 @@
                          (.setColor gfx color)
                          (.fillRect gfx x y 1 1)))))
 
+
+
+(defn rotate [[x y] angle]
+  (let [c (cos angle) s (sin angle)]
+    [ (- (* c x) (* s y)) (+ (* c y) (* s x))]))
+
+(defn transform [[x y] shift scale]
+  [ (/ (- x shift) scale) (/ (- y shift) scale)])
+
